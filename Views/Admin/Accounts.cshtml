@@ -1,0 +1,120 @@
+﻿@model EddsWaffle.Models.User
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/Admin/Accounts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Accounts</title>
+</head>
+<body>
+    <div id="newaccountarea">
+        <button id="addaccount" class="buttonAccount button-newAccount">Add New Account</button>
+    </div>
+
+    <div id="kendo-area">
+        @(Html.Kendo().Grid<EddsWaffle.Models.User>()
+                                                                   .Name("account-grid")
+                                                                   .Columns(columns =>
+                                                                   {
+                                                                       columns.Bound(p => p.username).Width(100).Title("Username").Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Searching Username With....");
+                                                                               });
+                                                                           });
+                                                                       });
+                                                                       columns.Bound(p => p.role).Width(50).Title("Role").Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Searhing Role With....");
+                                                                               });
+                                                                           });
+                                                                       });
+                                                                       columns.Command(command => { command.Destroy(); }).Width(40).Title("Action");
+                                                                   })
+                                                                   .Pageable()
+                                                                   .Selectable()
+                                                                   .Scrollable()
+                                                                   .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                                                                   .HtmlAttributes(new
+                                                                   {
+                                                                       style
+                                                                            = "height:450px; " +
+                                                                            "right: 30%;" +
+                                                                            "width: 150%; " +
+                                                                            "margin-top: 3%; " +
+                                                                            "font-size:14px;" +
+                                                                            "background-color: white;" +
+                                                                            "font-family: 'Exo', sans-serif;"
+                                                                   })
+                                                               .DataSource(dataSource => dataSource
+                                                                   .Ajax()
+                                                                   .Model(model => model.Id(p => p.username))
+                                                                   .PageSize(15)
+                                                                   .ServerOperation(true)
+                                                                   .Read(read => read.Action("User_Data", "Admin"))
+                                                                   .Destroy(update => update.Action("DeleteUser", "Admin"))
+                                                                   )
+        )
+
+    </div>
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="form-wrap">
+            @{
+                List<SelectListItem> role = new List<SelectListItem>();
+                role.Add(new SelectListItem
+                {
+                    Text = "Cashier",
+                    Value = "Cashier",
+                    Selected = true
+                });
+                role.Add(new SelectListItem
+                {
+                    Text = "Supervisor",
+                    Value = "Supervisor",
+                });
+            }
+
+            @using (Html.BeginForm("AddAccount", "Admin", FormMethod.Post))
+            {
+                <h1><center>Add New Account</center></h1>
+                @Html.EditorFor(model => model.username, new { htmlAttributes = new { placeholder = "Username" } }) <br>
+                @Html.PasswordFor(model => model.password, new { htmlAttributes = new { placeholder = "Password" } }) <br>
+                @Html.DropDownListFor(model => model.role, role) <br>
+                <input type="submit" id="add-account" value="Add Account">
+            }
+            <input type="button" id="cancel-account" value="Cancel">
+
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("addaccount");
+        var cancel = document.getElementById("cancel-account");
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>

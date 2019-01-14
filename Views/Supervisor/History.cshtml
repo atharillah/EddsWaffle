@@ -1,0 +1,148 @@
+﻿@{
+    Layout = "~/Views/Shared/_SupervisorLayout.cshtml";
+    ViewBag.Title = "History";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Supervisor/History.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <title>History</title>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><img src="~/Resources/Images/edds-waffle-pku.png" width="150" height="100"></img></a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li><a>@Html.ActionLink("Sales-Monitoring", "SalesMonitoring", new { controller = "Supervisor" })</a></liclass="active">
+                        <li class="active"><a>@Html.ActionLink("History", "History", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Trends - Analysis", "Trends", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Products", "SetProduct", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Menu - Category", "Category", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Sign Out", "LoginAuth", new { controller = "Login" })</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Transaction History</span> - <i>Edds Waffle Pekanbaru</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area">
+        @(Html.Kendo().Grid<EddsWaffle.Models.TransactionHeader>()
+                                                                                                                           .Name("grid")
+                                                                                                                           .Columns(columns =>
+                                                                                                                           {
+                                                                                                                               columns.Bound(p => p.code_transaction).Width(150).Title("Transaction Code").ClientFooterTemplate("#=count# Transaction");
+                                                                                                                              
+                                                                                                                               columns.Bound(p => p.date_time).Width(150).Title("Transaction Date").Format("{0:d/M/yyyy}");
+                                                                                                                               columns.Bound(p => p.payment_method).Width(125).Title("Payment")
+                                                                                                                               .Filterable(filter =>
+                                                                                                                               {
+                                                                                                                                   filter.Extra(false);
+                                                                                                                                   filter.Operators(op =>
+                                                                                                                                   {
+                                                                                                                                       op.ForString(str =>
+                                                                                                                                       {
+                                                                                                                                           str.Clear().Contains("Contains");
+                                                                                                                                       });
+                                                                                                                                   });
+                                                                                                                               });
+                                                                                                                               columns.Bound(p => p.payment_total).Width(125).Title("Total Price (Rupiah)").Format("{0:0,00}").ClientFooterTemplate("Total Income: Rp. #=sum#");
+                                                                                                                               
+                                                                                                                               columns.Command(command => { command.Destroy(); }).Width(100).Title("Action");
+
+                                                                                                                           })
+                                                                                                                           .Pageable()
+                                                                                                                           .Selectable()
+                                                                                                                           .Sortable(sortable =>
+                                                                                                                           {
+                                                                                                                               sortable.SortMode(GridSortMode.SingleColumn);
+                                                                                                                           })
+                                                                                                                           .Scrollable()
+                                                                                                                           .ClientDetailTemplateId("template")
+                                                                                                                           .Filterable(ftb=>ftb.Mode(GridFilterMode.Menu))
+                                                                                                                           .HtmlAttributes(new
+                                                                                                                           {
+                                                                                                                               style
+                                                                                                                                    = "height:1300px; " +
+                                                                                                                                    "right: 30%;" +
+                                                                                                                                    "width: 135%; " +
+                                                                                                                                    "margin-top: 10%; " +
+                                                                                                                                    "font-size:14px;"
+                                                                                                                           })
+                                                                                                                           .DataSource(dataSource => dataSource
+                                                                                                                               .Ajax()
+                                                                                                                               .Model(model => model.Id(p => p.code_transaction))
+                                                                                                                               .Aggregates(aggregates =>
+                                                                                                                               {
+                                                                                                                                   aggregates.Add(p => p.code_transaction).Count();
+                                                                                                                                   aggregates.Add(p => p.payment_total).Sum();
+                                                                                                                               })
+                                                                                                                               .PageSize(20)
+                                                                                                                               .ServerOperation(false)
+                                                                                                                              .Read(read => read.Action("History_Data", "Supervisor"))
+                                                                                                                              .Destroy(update => update.Action("DeleteHistory", "Supervisor"))
+
+                                                                                                                           )
+        )
+        <script id="template" type="text/kendo-tmpl">
+            @(Html.Kendo().Grid<EddsWaffle.Models.DetailTransaction>()
+                                            .Name("grid_#=code_transaction#") // template expression, to be evaluated in the master context
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(o => o.code_product).Width(110).Title("Product Code");
+                                                columns.Bound(o => o.name_product).Width(150).Title("Product Name");
+                                                columns.Bound(o => o.quantity_product).Width(110).Title("Product Quantity");
+                                                columns.Bound(o => o.price_product).Width(300).Title("Product Price");
+                                            })
+                                            .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .PageSize(10)
+                                                .Read(read => read.Action("DetailHistory_Data", "Supervisor", new { id = "#=code_transaction#" }))
+                                            )
+                                            .Pageable()
+                                            .Filterable()
+                                            .Sortable()
+                                            .ToClientTemplate()
+            )
+
+        </script>
+    </div>
+
+    <script type="x/kendo-template" id="page-template">
+        <div class="page-template">
+            <div class="header">
+                Acme Inc.
+            </div>
+            <div class="footer">
+                <div style="float: right">Page #: pageNum # of #: totalPages #</div>
+            </div>
+        </div>
+    </script>
+
+
+</body>
+</html>

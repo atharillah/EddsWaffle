@@ -1,0 +1,31 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Styles.Render("~/Content/kendo/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+    <link rel="stylesheet" href="~/Content/kendo/kendo.default.min.css" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.common-material.min.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Admin/Admin-Layout.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="sidebar">
+        <div class="welcome">
+            WELCOME,<br>
+            ADMIN
+        </div>
+        <div id="menu-sidebar">
+            @Html.ActionLink("Accounts", "Accounts", "Admin", null, new { @class = "buttonSide button-accountSide" })
+            @Html.ActionLink("Mining - Predict", "MiningPrediction", "Admin", null, new { @class = "buttonSide button-miningSide" })
+            @Html.ActionLink("Mining - Trends", "MiningTrends", "Admin", null, new { @class = "buttonSide button-miningSide" })
+            @Html.ActionLink("Sign Out", "LoginAuth", "Login", null, new { @class = "buttonSide button-signoutSide" })
+        </div>
+    </div>
+    @RenderBody()
+</body>
+</html>

@@ -1,0 +1,156 @@
+﻿@{
+    Layout = "~/Views/Shared/_SupervisorLayout.cshtml";
+    ViewBag.Title = "Trends";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Supervisor/Trends.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <title>Edds Waffle - Trends</title>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><img src="~/Resources/Images/edds-waffle-pku.png" width="150" height="100"></img></a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li><a>@Html.ActionLink("Sales-Monitoring", "SalesMonitoring", new { controller = "Supervisor" })</a></liclass="active">
+                        <li><a>@Html.ActionLink("History", "History", new { controller = "Supervisor" })</a></li>
+                        <li class="active"><a>@Html.ActionLink("Trends - Analysis", "Trends", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Products", "SetProduct", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Menu - Category", "Category", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Sign Out", "LoginAuth", new { controller = "Login" })</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Product</span> Combination <i>Analysis</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area">
+        @(Html.Kendo().Grid<EddsWaffle.Models.Recommendation>()
+                                        .Name("recommendation-grid")
+                             .Columns(columns =>
+                             {
+                                 columns.Bound(p => p.item_combination).Width(150).Title("Product Combination").Sortable(false).Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Contains");
+                                                                               });
+                                                                           });
+                                                                       });
+                                 columns.Bound(p => p.total_value).Width(100).Title("Met In One Transaction").Filterable(false);
+
+                             })
+                             .Pageable()
+                             .Selectable()
+                             .Sortable()
+                             .Filterable(ftb=>ftb.Mode(GridFilterMode.Row))
+                             .Scrollable()
+                             .HtmlAttributes(new
+                             {
+                                 style
+                                      = "height:700px; " +
+                                      "right: 30%;" +
+                                      "width: 135%; " +
+                                      "margin-top: 10%; " +
+                                      "font-size:14px;"
+                             })
+                             .DataSource(dataSource => dataSource
+                                 .Ajax()
+                                 .Model(model => model.Id(p => p.id_recommendation))
+                                 .PageSize(30)
+                                 .ServerOperation(true)
+                                 .Read(read => read.Action("Recommendation_Data", "Supervisor"))
+                              )
+
+        )
+    </div>
+
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Total</span> Products <i>Sold</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area2">
+        <div id="kendo-area">
+            @(Html.Kendo().Grid<EddsWaffle.Models.ItemSold>()
+                                                            .Name("trends-grid")
+                                                 .Columns(columns =>
+                                                 {
+                                                     columns.Bound(p => p.item_bestselling).Width(150).Title("Product Name").Sortable(false).Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Contains");
+                                                                               });
+                                                                           });
+                                                                       });
+                                                     columns.Bound(p => p.value_bestselling).Width(100).Title("Total Sold").Filterable(false);
+
+                                                 })
+                                                 .Pageable()
+                                                 .Selectable()
+                                                 .Sortable()
+                                                 .Filterable(ftb=>ftb.Mode(GridFilterMode.Row))
+                                                 .Scrollable()
+                                                 .HtmlAttributes(new
+                                                 {
+                                                     style
+                                                          = "height:700px; " +
+                                                          "right: 30%;" +
+                                                          "width: 135%; " +
+                                                          "margin-top: 10%; " +
+                                                          "font-size:14px;"
+                                                 })
+                                                 .DataSource(dataSource => dataSource
+                                                     .Ajax()
+                                                     .Model(model => model.Id(p => p.id_bestselling))
+                                                     .PageSize(30)
+                                                     .ServerOperation(true)
+                                                     .Read(read => read.Action("TotalSold_Data", "Supervisor"))
+                                                  )
+
+            )
+        </div>
+</body>
+</html>

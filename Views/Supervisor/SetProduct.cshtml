@@ -1,0 +1,165 @@
+﻿@model EddsWaffle.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_SupervisorLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Supervisor/SetProduct.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <title>Products</title>
+</head>
+    <!-- start header -->
+<body>
+    <header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><img src="~/Resources/Images/edds-waffle-pku.png" width="150" height="100"></img></a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li><a>@Html.ActionLink("Sales-Monitoring", "SalesMonitoring", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("History", "History", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Trends - Analysis", "Trends", new { controller = "Supervisor" })</a></li>
+                        <li class="active"><a>@Html.ActionLink("Products", "SetProduct", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Menu - Category", "Category", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Sign Out", "LoginAuth", new { controller = "Login" })</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Set</span> - <i>Product</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <div id="newproductarea">
+        <button id="addproduct" class="buttonProduct button-newProduct">Add Product</button>
+    </div>
+    <div id="kendo-area">
+        @(Html.Kendo().Grid<EddsWaffle.Models.Product>()
+                                                                   .Name("grid")
+                                                                   .Columns(columns =>
+                                                                   {
+                                                                       columns.Bound(p => p.code_product).Width(175).Title("Code").Filterable(filter => {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op=>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Contains");
+                                                                               });
+                                                                           });
+                                                                       });
+                                                                       columns.Bound(p => p.name_product).Width(200).Title("Name").Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Contains");
+                                                                               });
+                                                                           });
+                                                                       });
+
+                                                                       columns.Bound(p => p.category_product).Width(200).Title("Category").Filterable(filter =>
+                                                                       {
+                                                                           filter.Extra(false);
+                                                                           filter.Operators(op =>
+                                                                           {
+                                                                               op.ForString(str =>
+                                                                               {
+                                                                                   str.Clear().Contains("Contains");
+                                                                               });
+                                                                           });
+                                                                       });
+                                                                       columns.Bound(p => p.price_product).Width(175).Title("Price (Rupiah)").Filterable(ftb => ftb.Mode(GridFilterMode.Menu));
+                                                                       columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200).Title("Action");
+                                                                   })
+                                                                   .Editable(editable => editable.Mode(GridEditMode.InLine))
+                                                                   .Pageable()
+                                                                   .Selectable()
+                                                                   .Scrollable()
+                                                                   .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                                                                   .HtmlAttributes(new
+                                                                   {
+                                                                       style
+                                                                            = "height:700px; " +
+                                                                            "right: 30%;" +
+                                                                            "width: 120%; " +
+                                                                            "margin-top: 3%; " +
+                                                                            "font-size:14px;" +
+                                                                            "background-color: white;" +
+                                                                            "font-family: 'Exo', sans-serif;"
+                                                                   })
+                                                               .DataSource(dataSource => dataSource
+                                                                   .Ajax()
+                                                                   .Model(model => model.Id(p => p.code_product))
+                                                                   .PageSize(15)
+                                                                   .ServerOperation(true)
+                                                                   .Read(read => read.Action("Product_Data", "Supervisor"))
+                                                                   .Update(update => update.Action("UpdateProduct", "Supervisor"))
+                                                                   .Destroy(update => update.Action("DeleteProduct", "Supervisor"))
+
+                                                                   )
+        )
+
+    </div>
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="form-wrap">
+
+            @using (Html.BeginForm("AddProduct", "Supervisor", FormMethod.Post))
+            {
+                <h1><center>Add Product</center></h1>
+                @Html.EditorFor(model => model.code_product, new { htmlAttributes = new { placeholder = "Product Code" } }) <br>
+                @Html.EditorFor(model => model.name_product, new { htmlAttributes = new { placeholder = "Product Name" } }) <br>
+                @Html.DropDownListFor(model => model.category_product, new SelectList(ViewBag.Categories)) <br>
+                @Html.EditorFor(model => model.price_product,  new { htmlAttributes = new { placeholder = "Product Price", @type = "number", } }) <br>
+                <input type="submit" id="add-product" value="Add Product">
+            }
+            <input type="button" id="cancel-product" value="Cancel">
+        </div>
+    </div>
+
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("addproduct");
+        var cancel = document.getElementById("cancel-product");
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+
+    </script>
+
+
+</body>
+</html>

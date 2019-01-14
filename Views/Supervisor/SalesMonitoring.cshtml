@@ -1,0 +1,325 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_SupervisorLayout.cshtml";
+    ViewBag.Title = "Prediction";
+}
+
+<!DOCTYPE html>
+<link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Supervisor/Revenue.css" rel="stylesheet" />
+    <title>Sales Monitoring</title>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><img src="~/Resources/Images/edds-waffle-pku.png" width="150" height="100"></img></a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a>@Html.ActionLink("Sales-Monitoring", "SalesMonitoring", new { controller = "Supervisor" })</a></liclass="active">
+                        <li><a>@Html.ActionLink("History", "History", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Trends - Analysis", "Trends", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Products", "SetProduct", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Menu - Category", "Category", new { controller = "Supervisor" })</a></li>
+                        <li><a>@Html.ActionLink("Sign Out", "LoginAuth", new { controller = "Login" })</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Sales and Trend</span> - <i>Monitoring</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="kendo-area">
+        @(Html.Kendo().Chart<EddsWaffle.Models.TransactionHeader>()
+                                                                                                                        .DataSource(dataSource => dataSource
+                                                                                                                        .Model(model => model.Id(p => p.code_transaction))
+                                                                                                                        .ServerOperation(true)
+                                                                                                                        .Read(read => read.Action("Chart_Data", "Supervisor")))
+                                                                                                                        .Name("chart")
+                                                                                                                        //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+                                                                                                                        .Title("Movement")
+
+                                                                                                                        .Series(series =>
+                                                                                                                        {
+                                                                                                                            series
+                                                                                                                                .Line(model => model.payment_total, categoryExpression: model => model.date_time)
+                                                                                                                                .Aggregate(ChartSeriesAggregate.Count)
+                                                                                                                                .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                                                                                                                                .Name("Total");
+
+                                                                                                                        })
+                                                                                                                        .CategoryAxis(axis => axis
+                                                                                                                            .Date()
+                                                                                                                            .BaseUnit(ChartAxisBaseUnit.Weeks)
+                                                                                                                            .WeekStartDay(DayOfWeek.Saturday)
+                                                                                                                        )
+                                                                                                                         .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #"))
+
+        )
+
+    </div>
+
+    <div class="box wide">
+        <div class="box-col">
+            <h4>Monitor Sales Every:</h4>
+            <input id="baseUnitWeeks" name="baseUnit" type="radio" value="weeks" checked="checked" autocomplete="off">
+            <label for="baseUnitWeeks">
+                <span></span>
+                Weeks
+            </label>
+
+            <input id="baseUnitMonths" name="baseUnit" type="radio" value="months" autocomplete="off">
+            <label for="baseUnitMonths">
+                <span></span>
+                Months
+            </label>
+        </div>
+
+        <div class="box-col-2">
+            <h4>Filter: </h4>
+
+            <input id="aggregateCount" name="aggregate" type="radio" value="count" checked="checked" autocomplete="off" />
+            <label for="aggregateCount">
+                <span></span>
+                Number of Transaction
+            </label>
+
+            <input id="aggregateSum" name="aggregate" type="radio" value="sum" autocomplete="off" />
+            <label for="aggregateSum">
+                <span></span>
+                Total Revenue
+            </label>
+
+            <input id="aggregateMax" name="aggregate" type="radio" value="max" autocomplete="off">
+            <label for="aggregateMax">
+                <span></span>
+                Maximum Transaction
+            </label>
+
+            <input id="aggregateMin" name="aggregate" type="radio" value="min" autocomplete="off">
+            <label for="aggregateMin">
+                <span></span>
+                Minimum Transaction
+            </label>
+
+            <input id="aggregateAvg" name="aggregate" type="radio" value="avg" autocomplete="off" />
+            <label for="aggregateAvg">
+                <span></span>
+                Average Transaction
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        $(".box").bind("change", refresh);
+
+        function refresh() {
+            var chart = $("#chart").data("kendoChart"),
+                series = chart.options.series,
+                categoryAxis = chart.options.categoryAxis,
+                baseUnitInputs = $("input:radio[name=baseUnit]"),
+                aggregateInputs = $("input:radio[name=aggregate]");
+
+            for (var i = 0, length = series.length; i < length; i++) {
+                series[i].aggregate = aggregateInputs.filter(":checked").val();
+            }
+
+            categoryAxis.baseUnit = baseUnitInputs.filter(":checked").val();
+
+            chart.refresh();
+        }
+    </script>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Weekly</span> Revenue <i>Prediction</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area2">
+        @(Html.Kendo().Chart<EddsWaffle.Models.Prediction>()
+                  .DataSource(dataSource => dataSource
+                  .Model(model => model.Id(p => p.id_prediction))
+                  .ServerOperation(true)
+                  .Read(read => read.Action("Comparison_Data", "Supervisor")))
+                  .Name("Prediction-Chart")
+                  //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+                  .Title("Movement")
+
+                   .Series(series =>
+                   {
+                       series
+                           .Line(model => model.revenue_prediction, categoryExpression: model => model.date)
+                           .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                           .Name("Prediction (Rp)")
+                           .Color("dodgerblue");
+                   })
+                   .CategoryAxis(axis => axis
+                   .Date()
+                   .BaseUnit(ChartAxisBaseUnit.Weeks)
+                   .WeekStartDay(DayOfWeek.Saturday)
+                  )
+
+                   .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #").Format("{0:0,00}"))
+
+        )
+
+    </div>
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Top </span>10 Days <i>Highest Income</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area3">
+        @(Html.Kendo().Chart<EddsWaffle.Models.TopIncome>()
+                  .DataSource(dataSource => dataSource
+                  .Model(model => model.Id(p => p.id_income))
+                  .ServerOperation(true)
+                  .Read(read => read.Action("TopIncome_Data", "Supervisor")))
+                  .Name("Top10-Bar")
+                  //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+                  .Title("Productivity")
+
+                   .Series(series =>
+                   {
+                       series
+                           .Area(model => model.total_income)
+                           .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                           .Name("Income")
+                           .Color("#00FA9A");
+                   })
+                   .CategoryAxis(axis => axis
+                   .Categories(x => x.date_income)
+
+                  )
+                   .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #"))
+
+        )
+
+    </div>
+
+    <section class="callaction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="big-cta">
+                        <div class="cta-text">
+                            <h2><span>Top </span>10 Days <i>Lowest Income</i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="kendo-area4">
+        @(Html.Kendo().Chart<EddsWaffle.Models.LowIncome>()
+                  .DataSource(dataSource => dataSource
+                  .Model(model => model.Id(p => p.id_lowincome))
+                  .ServerOperation(true)
+                  .Read(read => read.Action("LowIncome_Data", "Supervisor")))
+                  .Name("Low10-Bar")
+                  //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+                  .Title("Productivity")
+
+                   .Series(series =>
+                   {
+                       series
+                           .Area(model => model.total_lowincome)
+                           .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                           .Name("Income")
+                           .Color("#FF0000");
+                   })
+                   .CategoryAxis(axis => axis
+                   .Categories(x => x.date_lowincome)
+
+                  )
+                   .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #"))
+
+        )
+
+    </div>
+
+    @*<section class="callaction">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="big-cta">
+                            <div class="cta-text">
+                                <h2><span>Best </span>Selling <i>Products</i></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="kendo-area4">
+            @(Html.Kendo().Chart<EddsWaffle.Models.BestSelling>()
+              .DataSource(dataSource => dataSource
+              .Model(model => model.Id(p => p.id_bestselling))
+              .ServerOperation(true)
+              .Read(read => read.Action("BestSelling_Data", "Supervisor")))
+              .Name("Best-Selling")
+              //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+              .Title("Top 10 - Product Sold")
+
+               .Series(series =>
+               {
+                   series
+                       .Bar(model => model.value_bestselling)
+                       .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                       .Name("Income")
+                       .Color("#FF0000");
+               })
+               .CategoryAxis(axis => axis
+               .Categories(x => x.item_bestselling)
+
+              )
+               .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #"))
+
+            )
+
+        </div>*@
+</body>
+</html>

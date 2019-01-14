@@ -1,0 +1,30 @@
+﻿@model EddsWaffle.Models.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Login/Login.css" rel="stylesheet" />
+    <title>Login - Edd's Waffle</title>
+</head>
+<body>
+    <div class="body"></div>
+    <div class="grad"></div>
+    <div class="header">
+        <div>Edd's<span> Waffle</span></div>
+    </div>
+    <br>
+    <div class="login">
+        @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
+        {
+            @Html.EditorFor(model => model.username, new { htmlAttributes = new { placeholder = "Username" } }) <br>
+            @Html.PasswordFor(model => model.password, new { placeholder = "Password" }) <br>           
+            <input type="submit" value="Login">
+        }
+    </div>
+</body>
+</html>

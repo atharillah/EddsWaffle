@@ -1,0 +1,330 @@
+﻿@model EddsWaffle.Models.TransactionHeader
+@{
+    Layout = "~/Views/Shared/_CashierLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<html>
+<head>
+    <link href="~/Content/Cashier/Transaction.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Point Of Sale - Edds Waffle Pekanbaru</title>
+</head>
+<body>
+    <form name="formsubmission" class="form-inline">
+        <input type="text" placeholder="Product Code" id="searchProduct" required>
+        <input type="number" placeholder="Product Quantity" id="quantityProduct" required>
+        <input type="text" placeholder="Product Name" id="nameProduct" readonly="readonly"><br>
+        <input type="text" placeholder="Price" id="priceProduct" readonly="readonly">
+        <input type="text" placeholder="Total Price" id="totalpriceProduct" readonly="readonly">
+        <button onclick="validateForm(); Reset(); setTotal(); ">Add To Cart</button>
+    </form>
+
+    <div class="tablelist">
+        <table id="tablecart" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="sub-table">
+        @{
+            List<SelectListItem> paymentmethod = new List<SelectListItem>();
+            paymentmethod.Add(new SelectListItem
+            {
+                Text = "Cash",
+                Value = "Cash",
+                Selected = true
+            });
+            paymentmethod.Add(new SelectListItem
+            {
+                Text = "Debit",
+                Value = "Debit",
+                Selected = true
+            });
+        }
+        }
+
+        @using (Html.BeginForm("AddTransaction", "Cashier", FormMethod.Post))
+        {
+
+            List<SelectListItem> paymethod = new List<SelectListItem>();
+            paymethod.Add(new SelectListItem
+            {
+                Text = "Cash",
+                Value = "Cash",
+                Selected = true
+            });
+            paymethod.Add(new SelectListItem
+            {
+                Text = "Debit",
+                Value = "Debit",
+            });
+            paymethod.Add(new SelectListItem
+            {
+                Text = "Cashless Pay",
+                Value = "Cashless Pay",
+            });
+
+
+            <label for="CodeTransaction">Transaction No.</label>
+            @Html.EditorFor(model => model.code_transaction, new { htmlAttributes = new { id = "notransaction", placeholder = "Transaction Code", @readonly = "readonly" } })
+
+            <label for="GetDiscount">Discount (%)</label>
+            @Html.EditorFor(model => model.discount_transaction, new { htmlAttributes = new { id = "discount", placeholder = "Discount (%)", @type = "number", onkeyup = "calculatediscount(); calculatechange();" } })
+
+            <label for="PaymentMethod">Payment Method</label>
+            @Html.DropDownListFor(model => model.payment_method, paymethod)
+
+            <label for="GetTotal">Sub Total</label>
+            @Html.EditorFor(model => model.payment_total, new { htmlAttributes = new { id = "SubTotal", placeholder = "Sub Total", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.payment_total);
+
+            <label for="PaidTotal">Paid</label>
+            <input type="text" placeholder="Paid" id="paidTotal" onkeyup="calculatechange();">
+            <label for="ChangeNeeded">Change</label>
+            <input type="text" placeholder="Change" id="changeTotal" readonly="readonly">
+            <input type="submit" id="btn-checkout" value="Check Out" onclick="printReceipt();">
+
+        }
+
+        <button class="button-resetcart" id="btn-reset" onclick="ResetCart();"> Reset</button>
+
+        @*<button class="button-submitcart" id="btn-checkout" onclick="printReceipt()" ;> Check Out</button>*@
+
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#notransaction").val(@ViewData["code"])
+        })
+    </script>
+
+    <script>
+    $("#searchProduct").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetProductValue", "Cashier")',
+                dataType: "json",
+                data: { search  : $("#searchProduct").val() },
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.code_product,
+                            value: item.code_product,
+                            label2: item.name_product,
+                            label3: item.price_product
+                        };
+                    }));
+                }
+
+            });
+        },
+        select: function (event, ui) {
+            $("#nameProduct").val(ui.item.label2);
+            $("#priceProduct").val(ui.item.label3);
+            return false;
+        }
+        });
+        $(document).ready(function () {
+            $('#quantityProduct').keyup(calculate);
+            $('#priceProduct').keyup(calculate);
+        });
+        function calculate(e) {
+            $('#totalpriceProduct').val($('#quantityProduct').val() * $('#priceProduct').val());
+        }
+    </script>
+    <script>
+        function Reset() {
+            $("#searchProduct").val('');
+            $("#nameProduct").val('');
+            $("#quantityProduct").val('');
+            $("#priceProduct").val('');
+            $("#totalpriceProduct").val('');
+            event.preventDefault();
+        }
+    </script>
+    <script>
+        function ResetCart() {
+            $(document).ready(function () {
+                $("#tablecart").find("tr:gt(0)").remove();
+                document.getElementById('SubTotal').value = '';
+                document.getElementById('discount').value = '';
+                document.getElementById('paidTotal').value = '';
+                document.getElementById('changeTotal').value = '';
+            });
+
+        }
+
+    </script>
+
+
+
+    <script>
+        function validateForm() {
+            var x = document.forms["formsubmission"]["searchProduct"].value;
+            var y = document.forms["formsubmission"]["quantityProduct"].value;
+            var z1 = document.forms["formsubmission"]["nameProduct"].value;
+            var z2 = document.forms["formsubmission"]["priceProduct"].value;
+            var z3 = document.forms["formsubmission"]["totalpriceProduct"].value;
+            if (x == "") {
+                alert("Please fill the Product Code correctly");
+                return false;
+            }
+            else if (y == "") {
+                alert("Please fill the Product Quantity correctly");
+                return false;
+            }
+            else if (z1 == "") {
+                alert("Item not found");
+                return false;
+            }
+            else if (z2 == "") {
+                alert("Item not found");
+                return false;
+            }
+            else if (z3 == "") {
+                alert("Item not found");
+                return false;
+            }
+            else {
+                var table = document.getElementById('tablecart'),
+                    newRow = table.insertRow(table.rows.length),
+                    cel1 = newRow.insertCell(0),
+                    cel2 = newRow.insertCell(1),
+                    cel3 = newRow.insertCell(2),
+                    cel4 = newRow.insertCell(3),
+                    cel5 = newRow.insertCell(4),
+                    cel6 = newRow.insertCell(5),
+                    productcode = document.getElementById('searchProduct').value,
+                    productname = document.getElementById('nameProduct').value,
+                    productquantity = document.getElementById('quantityProduct').value,
+                    productprice = document.getElementById('priceProduct').value,
+                    producttotalprice = document.getElementById('totalpriceProduct').value;
+                // add values to the cells
+                cel1.innerHTML = productcode;
+                cel2.innerHTML = productname;
+                cel3.innerHTML = productquantity;
+                cel4.innerHTML = productprice;
+                cel5.innerHTML = producttotalprice;
+                cel6.innerHTML = "<input type=\"button\" value=\"Remove\" onclick= \"$(this).closest('tr').remove(); setTotal(); \" />";
+            }
+        }
+    </script>
+    
+    <script>
+        
+        function setTotal() {
+            var totalPrice = 0;
+            var count = 0;
+            var table = document.getElementById("tablecart");
+
+            for (var i = 1; i < table.rows.length; i++) {
+                totalPrice = totalPrice + parseFloat(table.rows[i].cells[4].innerHTML);
+            }
+            document.getElementById("SubTotal").value = totalPrice;
+            return totalPrice;
+
+        }
+
+
+        function calculatediscount() {
+            var numVal1 = setTotal();
+            var numVal2 = Number(document.getElementById("discount").value) / 100;
+            var totalValue = numVal1 - (numVal1 * numVal2)
+            document.getElementById("SubTotal").value = totalValue.toFixed(2);
+
+        }
+
+        function calculatechange(e) {
+            $('#changeTotal').val($('#paidTotal').val() - $('#SubTotal').val());
+        }
+    </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn-checkout").click(function () {
+                var itemlist = [];
+
+                //get cell values, instead of the header text.
+                $("table tr:not(:first)").each(function () {
+                    var tdlist = $(this).find("td");
+                    var Item = { code_product: $(tdlist[0]).html(), name_product: $(tdlist[1]).html(), quantity_product: $(tdlist[2]).html(), price_product: $(tdlist[3]).html(), totalprice_product: $(tdlist[4]).html() };
+                    itemlist.push(Item);
+                })
+
+                $.ajax({
+                    url: '@Url.Action("InsertTableCart", "Cashier")', //
+                    dataType: "json",
+                    data: JSON.stringify({ itemlist: itemlist }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        alert("Transaction Successfully Added !");
+                    },
+                    error: function (xhr) {
+                        alert("No Item In Cart Found");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        function printReceipt() {
+
+                $("table tr:not(:first)").each(function () {
+                var tdlist = $(this).find("td");
+                var Item = { product: $(tdlist[1]).html(), quantity: $(tdlist[2]).html(), price: $(tdlist[4]).html() };
+
+                    var Title = "Edds Waffle";
+                var Number = "28294";
+                var Address = "Jl.Marsan Sejahtera No.3 - 4";
+                var Address2 = "Sidomulyo Barat, Tampan, Kota Pekanbaru";
+
+                var receipt = window.open("", "", "width=700, height=400");
+
+                receipt.document.write("<center><b>" + Title.fontcolor("dodgerblue").fontsize(6) + "</b></center>" + "<BR>");
+                receipt.document.write("<center><b>" + Number.fontcolor("dodgerblue").fontsize(6) + "</b></center>" + "<BR>");
+                receipt.document.write("<center><b>" + Address.fontcolor("dodgerblue").fontsize(6) + "</b></center>" + "<BR>");
+                receipt.document.write("<center><b>" + Address2.fontcolor("dodgerblue").fontsize(6) + "</b></center>" + "<BR>");
+                
+
+                receipt.document.close();
+                receipt.focus();
+                receipt.print();
+                receipt.close();
+
+            })
+
+          
+            
+        }
+
+    </script>
+
+    <script>
+        // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
+        $(window).on("load resize ", function () {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({ 'padding-right': scrollWidth });
+        }).resize();
+    </script>
+</body>
+</html>

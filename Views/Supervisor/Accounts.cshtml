@@ -1,0 +1,57 @@
+﻿@model EddsWaffle.Models.User
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link href="~/Content/Supervisor/Accounts.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Accounts</title>
+</head>
+    <body>
+        <div id="newaccountarea">
+            <button id="addaccount" class="buttonAccount button-newAccount">Add New Cashier</button>
+        </div>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="form-wrap">
+                @{
+                        List<SelectListItem> role = new List<SelectListItem>();
+                        role.Add(new SelectListItem
+                        {
+                            Text = "Cashier",
+                            Value = "Cashier",
+                            Selected = true
+                    });
+                }
+
+                    @using (Html.BeginForm("AddAccount", "Supervisor", FormMethod.Post))
+                    {
+                        <h1><center>Add New Cashier</center></h1>
+                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { placeholder = "Username" } }) <br>
+                        @Html.PasswordFor(model => model.password, new { htmlAttributes = new { placeholder = "Password" } }) <br>
+                        @Html.DropDownListFor(model => model.role, role) <br>
+                        <input type="submit" id="add-account" value="Add Account">
+                    }
+                    <input type="button" id="cancel-account" value="Cancel">
+
+                </div>
+        </div>
+
+        <script>
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("addaccount");
+            var cancel = document.getElementById("cancel-account");
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            cancel.onclick = function () {
+                modal.style.display = "none";
+            }
+        </script>        
+    </body>
+</html>

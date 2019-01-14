@@ -1,0 +1,104 @@
+﻿@model EddsWaffle.Models.PredictParameter
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/Admin/MiningPrediction.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Mining - Prediction</title>
+</head>
+<body>
+    <div id="newaccountarea">
+        <button id="addparameter" class="buttonPredict button-newPredict">Set Parameter Value</button>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-counter alpha">
+            <span class="count-numbers">@ViewData["alphaval"]</span>
+            <span class="count-name"> Alpha Nowadays</span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-counter beta">
+            <span class="count-numbers">@ViewData["betaval"]</span>
+            <span class="count-name">Beta Nowadays</span>
+        </div>
+    </div>
+
+    @*<div class="col-md-3">
+        <div class="card-counter mape">
+            <span class="count-numbers">6875</span>
+            <span class="count-name">Error Precentage</span>
+        </div>
+    </div>*@
+
+    <div id="kendo-area2">
+        @(Html.Kendo().Chart<EddsWaffle.Models.Prediction>()
+                          .DataSource(dataSource => dataSource
+                          .Model(model => model.Id(p => p.id_prediction))
+                          .ServerOperation(true)
+                          .Read(read => read.Action("Comparison_Data", "Supervisor")))
+                          .Name("Prediction-Chart")
+                          //.ChartArea(chartarea => chartarea.Background("#f9f9f9"))
+                          .Title("Movement")
+
+                           .Series(series =>
+                           {
+                               series
+                                   .Area(model => model.revenue_prediction, categoryExpression: model => model.date)
+                                   .Notes(notes => notes.Label(label => label.Position(ChartNoteLabelPosition.Outside)).Position(ChartNotePosition.Bottom))
+                                   .Name("Prediction (Rp)")
+                                   .Color("purple");
+                           })
+                           .CategoryAxis(axis => axis
+                           .Date()
+                           .BaseUnit(ChartAxisBaseUnit.Weeks)
+                           .WeekStartDay(DayOfWeek.Saturday)
+                          )
+
+                           .Tooltip(tooltip => tooltip.Visible(true).Template("#= series.name #: #= value #").Format("{0:0,00}"))
+
+        )
+
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="form-wrap">
+
+            @using (Html.BeginForm("AddPredictParameter", "Admin", FormMethod.Post))
+            {
+                <h1><center>Set Parameter Value</center></h1>
+                <label><center>Set Alpha Value</center></label>
+                @Html.DropDownListFor(model => model.alpha_value, Enumerable.Range(0, 11).Select(x => new SelectListItem { Text = (x / 10F).ToString(), Value = (x / 10F).ToString() })) <br>
+                <label><center>Set Beta Value</center></label>
+                @Html.DropDownListFor(model => model.beta_value, Enumerable.Range(0, 11).Select(x => new SelectListItem { Text = (x / 10F).ToString(), Value = (x / 10F).ToString() })) <br>
+                <input type="submit" id="add-parameter" value="Add Parameter Value">
+            }
+            <input type="button" id="cancel-parameter" value="Cancel">
+
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("addparameter");
+        var cancel = document.getElementById("cancel-parameter");
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

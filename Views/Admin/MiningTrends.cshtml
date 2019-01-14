@@ -1,0 +1,118 @@
+﻿@model EddsWaffle.Models.TrendsParameter
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/Admin/MiningTrends.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/kendo/kendo.material.min.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Mining - Trends</title>
+</head>
+<body>
+    <div id="newaccountarea">
+        <button id="addparameter" class="buttonSupport button-newSupport">Set Min. Support Value</button>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-counter support">
+            <span class="count-numbers">@ViewData["MinimumSupport"] %</span>
+            <span class="count-name"> Minimum Support Value</span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-counter minimum">
+            <span class="count-numbers">@ViewData["selection"]</span>
+            <span class="count-name">Count Must Reached</span>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="card-counter count">
+            <span class="count-numbers">@ViewData["itempass"]</span>
+            <span class="count-name">Item Passed</span>
+        </div>
+    </div>
+
+    <div id="kendo-area2">
+        @(Html.Kendo().Grid<EddsWaffle.Models.PotentialProduct>()
+                                                                                  .Name("category-grid")
+                                                                                  .Columns(columns =>
+                                                                                  {
+                                                                                      columns.Bound(p => p.product_potential).Width(200).Title("Potential Product").Filterable(filter =>
+                                                                                      {
+                                                                                          filter.Extra(false);
+                                                                                          filter.Operators(op =>
+                                                                                          {
+                                                                                              op.ForString(str =>
+                                                                                              {
+                                                                                                  str.Clear().Contains("Searhing Product With....");
+                                                                                              });
+                                                                                          });
+                                                                                      });
+                                                                                      columns.Bound(p => p.product_number).Width(175).Title("Item Sold Count").Filterable(false);
+                                                                                  })
+                                                                                  .Pageable()
+                                                                                  .Selectable()
+                                                                                  .Scrollable()
+                                                                                  .Sortable()
+                                                                                  .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                                                                                  .HtmlAttributes(new
+                                                                                  {
+                                                                                      style
+                                                                                           = "height:600px; " +
+                                                                                           "right: 30%;" +
+                                                                                           "width: 125%; " +
+                                                                                           "margin-top: 3%; " +
+                                                                                           "font-size:14px;" +
+                                                                                           "background-color: white;" +
+                                                                                           "font-family: 'Exo', sans-serif;"
+                                                                                  })
+                                                                              .DataSource(dataSource => dataSource
+                                                                                  .Ajax()
+                                                                                  .Model(model => model.Id(p => p.id_potential))
+                                                                                  .PageSize(15)
+                                                                                  .ServerOperation(true)
+                                                                                  .Read(read => read.Action("Potential_Data", "Admin"))
+                                                                                  )
+        )
+
+
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="form-wrap">
+
+            @using (Html.BeginForm("AddTrendsParameter", "Admin", FormMethod.Post))
+            {
+                <h1><center>Set Parameter Value</center></h1>
+                @Html.EditorFor(model => model.minsupport_value, new { htmlAttributes = new { placeholder = "Range 1-100 (%)" } }) <br>
+                <input type="submit" id="add-parameter" value="Add Parameter Value">
+            }
+            <input type="button" id="cancel-parameter" value="Cancel">
+
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("addparameter");
+        var cancel = document.getElementById("cancel-parameter");
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
