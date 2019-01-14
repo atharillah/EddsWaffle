@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_EddsWaffleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="category_name" />
+          </Key>
+          <Property Name="id_category" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetailTransaction">
+          <Key>
+            <PropertyRef Name="number_transaction" />
+          </Key>
+          <Property Name="number_transaction" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transaction_code" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="code_product" Type="varchar" MaxLength="50" />
+          <Property Name="name_product" Type="varchar" MaxLength="50" />
+          <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="ItemSold">
+          <Key>
+            <PropertyRef Name="id_bestselling" />
+          </Key>
+          <Property Name="id_bestselling" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="item_bestselling" Type="varchar" MaxLength="50" />
+          <Property Name="value_bestselling" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="LowIncome">
+          <Key>
+            <PropertyRef Name="id_lowincome" />
+          </Key>
+          <Property Name="id_lowincome" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ranking_lowincome" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="total_lowincome" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="date_lowincome" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MAPE">
+          <Key>
+            <PropertyRef Name="id_mape" />
+          </Key>
+          <Property Name="id_mape" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mape_value" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="code_member" />
+          </Key>
+          <Property Name="code_member" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="name_member" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="borndate_member" Type="date" Nullable="false" />
+          <Property Name="gender_member" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="phone_member" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="address_member" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberTransaction">
+          <Key>
+            <PropertyRef Name="code_transaction" />
+          </Key>
+          <Property Name="code_transaction" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="code_member" Type="varchar" MaxLength="30" />
+          <Property Name="name_customer" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="number_transaction" />
+          </Key>
+          <Property Name="number_transaction" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code_transaction" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="code_product" Type="varchar" MaxLength="255" />
+          <Property Name="name_product" Type="varchar" MaxLength="255" />
+          <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="PotentialProduct">
+          <Key>
+            <PropertyRef Name="id_potential" />
+          </Key>
+          <Property Name="id_potential" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_potential" Type="varchar" MaxLength="80" />
+          <Property Name="product_number" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Prediction">
+          <Key>
+            <PropertyRef Name="id_prediction" />
+          </Key>
+          <Property Name="id_prediction" Type="int" Nullable="false" />
+          <Property Name="revenue_prediction" Type="float" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="PredictParameter">
+          <Key>
+            <PropertyRef Name="id_predict" />
+          </Key>
+          <Property Name="id_predict" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="alpha_value" Type="float" Nullable="false" />
+          <Property Name="beta_value" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="code_product" />
+          </Key>
+          <Property Name="code_product" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name_product" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="category_product" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="price_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recommendation">
+          <Key>
+            <PropertyRef Name="id_recommendation" />
+          </Key>
+          <Property Name="id_recommendation" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="item_combination" Type="varchar(max)" />
+          <Property Name="total_value" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TesTes_Table">
+          <Key>
+            <PropertyRef Name="code_product" />
+          </Key>
+          <Property Name="code_product" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="name_product" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="totalprice_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TopIncome">
+          <Key>
+            <PropertyRef Name="id_income" />
+          </Key>
+          <Property Name="id_income" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ranking_income" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="total_income" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="date_income" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TransactionDetails">
+          <Key>
+            <PropertyRef Name="item_number" />
+          </Key>
+          <Property Name="item_number" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transactioncode" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="code_product" Type="varchar" MaxLength="50" />
+          <Property Name="name_product" Type="varchar" MaxLength="50" />
+          <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TransactionHeader">
+          <Key>
+            <PropertyRef Name="code_transaction" />
+          </Key>
+          <Property Name="code_transaction" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="date_time" Type="date" Nullable="false" />
+          <Property Name="discount_transaction" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="payment_method" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="payment_total" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrendsParameter">
+          <Key>
+            <PropertyRef Name="id_trends" />
+          </Key>
+          <Property Name="id_trends" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="minsupport_value" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DB_EddsWaffleModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailTransaction" EntityType="Self.DetailTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemSold" EntityType="Self.ItemSold" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LowIncome" EntityType="Self.LowIncome" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MAPE" EntityType="Self.MAPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Membership" EntityType="Self.Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberTransaction" EntityType="Self.MemberTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotentialProduct" EntityType="Self.PotentialProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prediction" EntityType="Self.Prediction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PredictParameter" EntityType="Self.PredictParameter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recommendation" EntityType="Self.Recommendation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TesTes_Table" EntityType="Self.TesTes_Table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TopIncome" EntityType="Self.TopIncome" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionHeader" EntityType="Self.TransactionHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrendsParameter" EntityType="Self.TrendsParameter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_EddsWaffleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="code_member" />
+          </Key>
+          <Property Name="code_member" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name_member" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="borndate_member" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="gender_member" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone_member" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="address_member" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberTransaction">
+          <Key>
+            <PropertyRef Name="code_transaction" />
+          </Key>
+          <Property Name="code_transaction" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="code_member" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="name_customer" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="code_product" />
+          </Key>
+          <Property Name="code_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="category_product" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TesTes_Table">
+          <Key>
+            <PropertyRef Name="code_product" />
+          </Key>
+          <Property Name="code_product" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity_product" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="totalprice_product" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DB_EddsWaffleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Membership" EntityType="Self.Membership" />
+          <EntitySet Name="MemberTransaction" EntityType="Self.MemberTransaction" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="TesTes_Table" EntityType="Self.TesTes_Table" />
+          <EntitySet Name="User" EntityType="DB_EddsWaffleModel.User" />
+          <EntitySet Name="Prediction" EntityType="DB_EddsWaffleModel.Prediction" />
+          <EntitySet Name="TransactionDetails" EntityType="DB_EddsWaffleModel.TransactionDetails" />
+          <EntitySet Name="DetailTransaction" EntityType="DB_EddsWaffleModel.DetailTransaction" />
+          <EntitySet Name="LowIncome" EntityType="DB_EddsWaffleModel.LowIncome" />
+          <EntitySet Name="OrderDetails" EntityType="DB_EddsWaffleModel.OrderDetails" />
+          <EntitySet Name="Recommendation" EntityType="DB_EddsWaffleModel.Recommendation" />
+          <EntitySet Name="ItemSold" EntityType="DB_EddsWaffleModel.ItemSold" />
+          <EntitySet Name="TopIncome" EntityType="DB_EddsWaffleModel.TopIncome" />
+          <EntitySet Name="TransactionHeader" EntityType="DB_EddsWaffleModel.TransactionHeader" />
+          <EntitySet Name="Category" EntityType="DB_EddsWaffleModel.Category" />
+          <EntitySet Name="MAPE" EntityType="DB_EddsWaffleModel.MAPE" />
+          <EntitySet Name="PotentialProduct" EntityType="DB_EddsWaffleModel.PotentialProduct" />
+          <EntitySet Name="PredictParameter" EntityType="DB_EddsWaffleModel.PredictParameter" />
+          <EntitySet Name="TrendsParameter" EntityType="DB_EddsWaffleModel.TrendsParameter" />
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Prediction">
+          <Key>
+            <PropertyRef Name="id_prediction" />
+          </Key>
+          <Property Name="id_prediction" Type="Int32" Nullable="false" />
+          <Property Name="revenue_prediction" Type="Double" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="TransactionDetails">
+          <Key>
+            <PropertyRef Name="item_number" />
+          </Key>
+          <Property Name="item_number" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transactioncode" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="code_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="quantity_product" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="DetailTransaction">
+          <Key>
+            <PropertyRef Name="number_transaction" />
+          </Key>
+          <Property Name="number_transaction" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transaction_code" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="code_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="quantity_product" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="LowIncome">
+          <Key>
+            <PropertyRef Name="id_lowincome" />
+          </Key>
+          <Property Name="id_lowincome" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ranking_lowincome" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="total_lowincome" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="date_lowincome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="number_transaction" />
+          </Key>
+          <Property Name="number_transaction" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code_transaction" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="code_product" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="name_product" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="quantity_product" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Recommendation">
+          <Key>
+            <PropertyRef Name="id_recommendation" />
+          </Key>
+          <Property Name="id_recommendation" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="item_combination" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="total_value" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="ItemSold">
+          <Key>
+            <PropertyRef Name="id_bestselling" />
+          </Key>
+          <Property Name="id_bestselling" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="item_bestselling" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="value_bestselling" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TopIncome">
+          <Key>
+            <PropertyRef Name="id_income" />
+          </Key>
+          <Property Name="id_income" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ranking_income" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="total_income" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="date_income" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TransactionHeader">
+          <Key>
+            <PropertyRef Name="code_transaction" />
+          </Key>
+          <Property Name="code_transaction" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="date_time" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="discount_transaction" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="payment_method" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="payment_total" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="category_name" />
+          </Key>
+          <Property Name="id_category" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MAPE">
+          <Key>
+            <PropertyRef Name="id_mape" />
+          </Key>
+          <Property Name="id_mape" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mape_value" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="PotentialProduct">
+          <Key>
+            <PropertyRef Name="id_potential" />
+          </Key>
+          <Property Name="id_potential" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_potential" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="product_number" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="PredictParameter">
+          <Key>
+            <PropertyRef Name="id_predict" />
+          </Key>
+          <Property Name="id_predict" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="alpha_value" Type="Double" Nullable="false" />
+          <Property Name="beta_value" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrendsParameter">
+          <Key>
+            <PropertyRef Name="id_trends" />
+          </Key>
+          <Property Name="id_trends" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="minsupport_value" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_EddsWaffleModelStoreContainer" CdmEntityContainer="DB_EddsWaffleEntities">
+          <EntitySetMapping Name="Membership">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.Membership">
+              <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="code_member" ColumnName="code_member" />
+                <ScalarProperty Name="name_member" ColumnName="name_member" />
+                <ScalarProperty Name="borndate_member" ColumnName="borndate_member" />
+                <ScalarProperty Name="gender_member" ColumnName="gender_member" />
+                <ScalarProperty Name="phone_member" ColumnName="phone_member" />
+                <ScalarProperty Name="address_member" ColumnName="address_member" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberTransaction">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.MemberTransaction">
+              <MappingFragment StoreEntitySet="MemberTransaction">
+                <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+                <ScalarProperty Name="code_member" ColumnName="code_member" />
+                <ScalarProperty Name="name_customer" ColumnName="name_customer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="code_product" ColumnName="code_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="category_product" ColumnName="category_product" />
+                <ScalarProperty Name="price_product" ColumnName="price_product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TesTes_Table">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.TesTes_Table">
+              <MappingFragment StoreEntitySet="TesTes_Table">
+                <ScalarProperty Name="code_product" ColumnName="code_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+                <ScalarProperty Name="price_product" ColumnName="price_product" />
+                <ScalarProperty Name="totalprice_product" ColumnName="totalprice_product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Prediction">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.Prediction">
+              <MappingFragment StoreEntitySet="Prediction">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="revenue_prediction" ColumnName="revenue_prediction" />
+                <ScalarProperty Name="id_prediction" ColumnName="id_prediction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionDetails">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.TransactionDetails">
+              <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="price_product" ColumnName="price_product" />
+                <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="code_product" ColumnName="code_product" />
+                <ScalarProperty Name="transactioncode" ColumnName="transactioncode" />
+                <ScalarProperty Name="item_number" ColumnName="item_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetailTransaction">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.DetailTransaction">
+              <MappingFragment StoreEntitySet="DetailTransaction">
+                <ScalarProperty Name="price_product" ColumnName="price_product" />
+                <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="code_product" ColumnName="code_product" />
+                <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+                <ScalarProperty Name="number_transaction" ColumnName="number_transaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LowIncome">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.LowIncome">
+              <MappingFragment StoreEntitySet="LowIncome">
+                <ScalarProperty Name="date_lowincome" ColumnName="date_lowincome" />
+                <ScalarProperty Name="total_lowincome" ColumnName="total_lowincome" />
+                <ScalarProperty Name="ranking_lowincome" ColumnName="ranking_lowincome" />
+                <ScalarProperty Name="id_lowincome" ColumnName="id_lowincome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.OrderDetails">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="price_product" ColumnName="price_product" />
+                <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="code_product" ColumnName="code_product" />
+                <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+                <ScalarProperty Name="number_transaction" ColumnName="number_transaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recommendation">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.Recommendation">
+              <MappingFragment StoreEntitySet="Recommendation">
+                <ScalarProperty Name="total_value" ColumnName="total_value" />
+                <ScalarProperty Name="item_combination" ColumnName="item_combination" />
+                <ScalarProperty Name="id_recommendation" ColumnName="id_recommendation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemSold">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.ItemSold">
+              <MappingFragment StoreEntitySet="ItemSold">
+                <ScalarProperty Name="value_bestselling" ColumnName="value_bestselling" />
+                <ScalarProperty Name="item_bestselling" ColumnName="item_bestselling" />
+                <ScalarProperty Name="id_bestselling" ColumnName="id_bestselling" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TopIncome">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.TopIncome">
+              <MappingFragment StoreEntitySet="TopIncome">
+                <ScalarProperty Name="date_income" ColumnName="date_income" />
+                <ScalarProperty Name="total_income" ColumnName="total_income" />
+                <ScalarProperty Name="ranking_income" ColumnName="ranking_income" />
+                <ScalarProperty Name="id_income" ColumnName="id_income" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionHeader">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.TransactionHeader">
+              <MappingFragment StoreEntitySet="TransactionHeader">
+                <ScalarProperty Name="payment_total" ColumnName="payment_total" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="discount_transaction" ColumnName="discount_transaction" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="id_category" ColumnName="id_category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MAPE">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.MAPE">
+              <MappingFragment StoreEntitySet="MAPE">
+                <ScalarProperty Name="mape_value" ColumnName="mape_value" />
+                <ScalarProperty Name="id_mape" ColumnName="id_mape" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotentialProduct">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.PotentialProduct">
+              <MappingFragment StoreEntitySet="PotentialProduct">
+                <ScalarProperty Name="product_number" ColumnName="product_number" />
+                <ScalarProperty Name="product_potential" ColumnName="product_potential" />
+                <ScalarProperty Name="id_potential" ColumnName="id_potential" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PredictParameter">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.PredictParameter">
+              <MappingFragment StoreEntitySet="PredictParameter">
+                <ScalarProperty Name="beta_value" ColumnName="beta_value" />
+                <ScalarProperty Name="alpha_value" ColumnName="alpha_value" />
+                <ScalarProperty Name="id_predict" ColumnName="id_predict" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrendsParameter">
+            <EntityTypeMapping TypeName="DB_EddsWaffleModel.TrendsParameter">
+              <MappingFragment StoreEntitySet="TrendsParameter">
+                <ScalarProperty Name="minsupport_value" ColumnName="minsupport_value" />
+                <ScalarProperty Name="id_trends" ColumnName="id_trends" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

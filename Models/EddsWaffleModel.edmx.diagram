@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d024a0a483ba409abb811abf5ddf12d7" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.Membership" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.MemberTransaction" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.Product" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.TesTes_Table" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.User" Width="1.5" PointX="5.5" PointY="5.5" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.Prediction" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.TransactionDetails" Width="1.5" PointX="6.875" PointY="2.625" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.DetailTransaction" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.LowIncome" Width="1.5" PointX="9.125" PointY="8" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.OrderDetails" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.Recommendation" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.ItemSold" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.TopIncome" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.TransactionHeader" Width="1.5" PointX="7.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.Category" Width="1.5" PointX="9.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.MAPE" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.PotentialProduct" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.PredictParameter" Width="1.5" PointX="3.375" PointY="11.75" />
+        <EntityTypeShape EntityType="DB_EddsWaffleModel.TrendsParameter" Width="1.5" PointX="11.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
