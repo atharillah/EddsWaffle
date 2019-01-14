@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_EddsWaffleModelStoreContainer" CdmEntityContainer="DB_EddsWaffleEntities">
+    <EntitySetMapping Name="Product_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Product_Table">
+        <MappingFragment StoreEntitySet="Product_Table">
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="category_product" ColumnName="category_product" />
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.User_Table">
+        <MappingFragment StoreEntitySet="User_Table">
+          <ScalarProperty Name="id_user" ColumnName="id_user" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="role" ColumnName="role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Membership_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Membership_Table">
+        <MappingFragment StoreEntitySet="Membership_Table">
+          <ScalarProperty Name="address_member" ColumnName="address_member" />
+          <ScalarProperty Name="phone_member" ColumnName="phone_member" />
+          <ScalarProperty Name="gender_member" ColumnName="gender_member" />
+          <ScalarProperty Name="borndate_member" ColumnName="borndate_member" />
+          <ScalarProperty Name="name_member" ColumnName="name_member" />
+          <ScalarProperty Name="code_member" ColumnName="code_member" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MemberTransaction_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.MemberTransaction_Table">
+        <MappingFragment StoreEntitySet="MemberTransaction_Table">
+          <ScalarProperty Name="name_customer" ColumnName="name_customer" />
+          <ScalarProperty Name="code_member" ColumnName="code_member" />
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransactionHeader_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TransactionHeader_Table">
+        <MappingFragment StoreEntitySet="TransactionHeader_Table">
+          <ScalarProperty Name="payment_total" ColumnName="payment_total" />
+          <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+          <ScalarProperty Name="code_member" ColumnName="code_member" />
+          <ScalarProperty Name="date_time" ColumnName="date_time" />
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetailTransaction_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.DetailTransaction_Table">
+        <MappingFragment StoreEntitySet="DetailTransaction_Table">
+          <ScalarProperty Name="totalprice_product" ColumnName="totalprice_product" />
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TesTes_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TesTes_Table">
+        <MappingFragment StoreEntitySet="TesTes_Table">
+          <ScalarProperty Name="totalprice_product" ColumnName="totalprice_product" />
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

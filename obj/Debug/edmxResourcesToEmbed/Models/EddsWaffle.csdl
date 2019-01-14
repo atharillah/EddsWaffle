@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_EddsWaffleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Product_Table">
+    <Key>
+      <PropertyRef Name="code_product" />
+    </Key>
+    <Property Name="code_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name_product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="category_product" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="price_product" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Table">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DB_EddsWaffleEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Product_Table" EntityType="Self.Product_Table" />
+    <EntitySet Name="User_Table" EntityType="Self.User_Table" />
+    <EntitySet Name="Membership_Table" EntityType="DB_EddsWaffleModel.Membership_Table" />
+    <EntitySet Name="MemberTransaction_Table" EntityType="DB_EddsWaffleModel.MemberTransaction_Table" />
+    <EntitySet Name="TransactionHeader_Table" EntityType="DB_EddsWaffleModel.TransactionHeader_Table" />
+    <EntitySet Name="DetailTransaction_Table" EntityType="DB_EddsWaffleModel.DetailTransaction_Table" />
+    <EntitySet Name="TesTes_Table" EntityType="DB_EddsWaffleModel.TesTes_Table" />
+  </EntityContainer>
+  <EntityType Name="Membership_Table">
+    <Key>
+      <PropertyRef Name="code_member" />
+    </Key>
+    <Property Name="code_member" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="name_member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="borndate_member" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="gender_member" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="phone_member" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="address_member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="MemberTransaction_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="code_member" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="name_customer" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TransactionHeader_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="date_time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="code_member" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="payment_method" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="payment_total" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="DetailTransaction_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="code_product" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="quantity_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="price_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="totalprice_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="TesTes_Table">
+    <Key>
+      <PropertyRef Name="code_product" />
+    </Key>
+    <Property Name="code_product" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="name_product" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="quantity_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="price_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="totalprice_product" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+</Schema>

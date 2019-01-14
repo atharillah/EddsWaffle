@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_EddsWaffleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DetailTransaction_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="code_product" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="price_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="totalprice_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Membership_Table">
+    <Key>
+      <PropertyRef Name="code_member" />
+    </Key>
+    <Property Name="code_member" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="name_member" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="borndate_member" Type="date" Nullable="false" />
+    <Property Name="gender_member" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="phone_member" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="address_member" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MemberTransaction_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="code_member" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="name_customer" Type="varchar" MaxLength="40" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product_Table">
+    <Key>
+      <PropertyRef Name="code_product" />
+    </Key>
+    <Property Name="code_product" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="name_product" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="category_product" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="price_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TesTes_Table">
+    <Key>
+      <PropertyRef Name="code_product" />
+    </Key>
+    <Property Name="code_product" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="name_product" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="quantity_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="price_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="totalprice_product" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TransactionHeader_Table">
+    <Key>
+      <PropertyRef Name="code_transaction" />
+    </Key>
+    <Property Name="code_transaction" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="date_time" Type="datetime" Nullable="false" />
+    <Property Name="code_member" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="payment_method" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="payment_total" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Table">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="role" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DB_EddsWaffleModelStoreContainer">
+    <EntitySet Name="DetailTransaction_Table" EntityType="Self.DetailTransaction_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Membership_Table" EntityType="Self.Membership_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MemberTransaction_Table" EntityType="Self.MemberTransaction_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_Table" EntityType="Self.Product_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TesTes_Table" EntityType="Self.TesTes_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransactionHeader_Table" EntityType="Self.TransactionHeader_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Table" EntityType="Self.User_Table" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

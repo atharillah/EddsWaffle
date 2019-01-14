@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_EddsWaffleModelStoreContainer" CdmEntityContainer="DB_EddsWaffleEntities">
+    <EntitySetMapping Name="Membership">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Membership">
+        <MappingFragment StoreEntitySet="Membership">
+          <ScalarProperty Name="code_member" ColumnName="code_member" />
+          <ScalarProperty Name="name_member" ColumnName="name_member" />
+          <ScalarProperty Name="borndate_member" ColumnName="borndate_member" />
+          <ScalarProperty Name="gender_member" ColumnName="gender_member" />
+          <ScalarProperty Name="phone_member" ColumnName="phone_member" />
+          <ScalarProperty Name="address_member" ColumnName="address_member" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MemberTransaction">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.MemberTransaction">
+        <MappingFragment StoreEntitySet="MemberTransaction">
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+          <ScalarProperty Name="code_member" ColumnName="code_member" />
+          <ScalarProperty Name="name_customer" ColumnName="name_customer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="category_product" ColumnName="category_product" />
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TesTes_Table">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TesTes_Table">
+        <MappingFragment StoreEntitySet="TesTes_Table">
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="totalprice_product" ColumnName="totalprice_product" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prediction">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Prediction">
+        <MappingFragment StoreEntitySet="Prediction">
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="revenue_prediction" ColumnName="revenue_prediction" />
+          <ScalarProperty Name="id_prediction" ColumnName="id_prediction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransactionDetails">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TransactionDetails">
+        <MappingFragment StoreEntitySet="TransactionDetails">
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="transactioncode" ColumnName="transactioncode" />
+          <ScalarProperty Name="item_number" ColumnName="item_number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetailTransaction">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.DetailTransaction">
+        <MappingFragment StoreEntitySet="DetailTransaction">
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+          <ScalarProperty Name="number_transaction" ColumnName="number_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LowIncome">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.LowIncome">
+        <MappingFragment StoreEntitySet="LowIncome">
+          <ScalarProperty Name="date_lowincome" ColumnName="date_lowincome" />
+          <ScalarProperty Name="total_lowincome" ColumnName="total_lowincome" />
+          <ScalarProperty Name="ranking_lowincome" ColumnName="ranking_lowincome" />
+          <ScalarProperty Name="id_lowincome" ColumnName="id_lowincome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.OrderDetails">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="price_product" ColumnName="price_product" />
+          <ScalarProperty Name="quantity_product" ColumnName="quantity_product" />
+          <ScalarProperty Name="name_product" ColumnName="name_product" />
+          <ScalarProperty Name="code_product" ColumnName="code_product" />
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+          <ScalarProperty Name="number_transaction" ColumnName="number_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recommendation">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Recommendation">
+        <MappingFragment StoreEntitySet="Recommendation">
+          <ScalarProperty Name="total_value" ColumnName="total_value" />
+          <ScalarProperty Name="item_combination" ColumnName="item_combination" />
+          <ScalarProperty Name="id_recommendation" ColumnName="id_recommendation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemSold">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.ItemSold">
+        <MappingFragment StoreEntitySet="ItemSold">
+          <ScalarProperty Name="value_bestselling" ColumnName="value_bestselling" />
+          <ScalarProperty Name="item_bestselling" ColumnName="item_bestselling" />
+          <ScalarProperty Name="id_bestselling" ColumnName="id_bestselling" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TopIncome">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TopIncome">
+        <MappingFragment StoreEntitySet="TopIncome">
+          <ScalarProperty Name="date_income" ColumnName="date_income" />
+          <ScalarProperty Name="total_income" ColumnName="total_income" />
+          <ScalarProperty Name="ranking_income" ColumnName="ranking_income" />
+          <ScalarProperty Name="id_income" ColumnName="id_income" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransactionHeader">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TransactionHeader">
+        <MappingFragment StoreEntitySet="TransactionHeader">
+          <ScalarProperty Name="payment_total" ColumnName="payment_total" />
+          <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+          <ScalarProperty Name="discount_transaction" ColumnName="discount_transaction" />
+          <ScalarProperty Name="date_time" ColumnName="date_time" />
+          <ScalarProperty Name="code_transaction" ColumnName="code_transaction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="id_category" ColumnName="id_category" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MAPE">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.MAPE">
+        <MappingFragment StoreEntitySet="MAPE">
+          <ScalarProperty Name="mape_value" ColumnName="mape_value" />
+          <ScalarProperty Name="id_mape" ColumnName="id_mape" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PotentialProduct">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.PotentialProduct">
+        <MappingFragment StoreEntitySet="PotentialProduct">
+          <ScalarProperty Name="product_number" ColumnName="product_number" />
+          <ScalarProperty Name="product_potential" ColumnName="product_potential" />
+          <ScalarProperty Name="id_potential" ColumnName="id_potential" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PredictParameter">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.PredictParameter">
+        <MappingFragment StoreEntitySet="PredictParameter">
+          <ScalarProperty Name="beta_value" ColumnName="beta_value" />
+          <ScalarProperty Name="alpha_value" ColumnName="alpha_value" />
+          <ScalarProperty Name="id_predict" ColumnName="id_predict" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TrendsParameter">
+      <EntityTypeMapping TypeName="DB_EddsWaffleModel.TrendsParameter">
+        <MappingFragment StoreEntitySet="TrendsParameter">
+          <ScalarProperty Name="minsupport_value" ColumnName="minsupport_value" />
+          <ScalarProperty Name="id_trends" ColumnName="id_trends" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
